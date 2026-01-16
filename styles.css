@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  color: #1f2a2e;
+  background: linear-gradient(135deg, #f4f0e6 0%, #e7efe4 55%, #e2ebf0 100%);
+}
+
+.app-header {
+  padding: 16px 24px 8px;
+}
+
+.app-header h1 {
+  margin: 0 0 6px;
+  font-size: 24px;
+}
+
+.app-header p {
+  margin: 0;
+  color: #3a4a4e;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 16px;
+  padding: 16px;
+  min-height: calc(100vh - 72px);
+}
+
+.panel {
+  background: rgba(255, 255, 255, 0.84);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(35, 45, 50, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.field input[type="range"] {
+  width: 100%;
+}
+
+.field output {
+  font-size: 14px;
+  color: #314046;
+}
+
+.field button {
+  padding: 10px 12px;
+  border: none;
+  border-radius: 8px;
+  background: #3f5f63;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.info {
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info span {
+  color: #42565c;
+}
+
+.warning {
+  margin-top: 6px;
+  padding: 8px 10px;
+  background: #ffe6d6;
+  border-left: 3px solid #d9593b;
+  color: #822a15;
+  display: none;
+}
+
+.map-wrap {
+  min-height: 520px;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  border-radius: 16px;
+  box-shadow: 0 14px 36px rgba(22, 28, 30, 0.18);
+}
+
+.marker-label {
+  background: #1d5b66;
+  color: #fff;
+  font-weight: 700;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 2px solid #f5efe2;
+  box-shadow: 0 6px 14px rgba(22, 28, 30, 0.18);
+}
+
+.marker-label.rotate-handle {
+  background: #9b4d2b;
+}
+
+
+@media (max-width: 960px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .map-wrap {
+    min-height: 420px;
+  }
+}

@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drone Vertical View Planner</title>
+    <!--
+      README:
+      - Ersetze YOUR_API_KEY mit deinem Google Maps JavaScript API Key.
+      - App ist client-side und nutzt die Libraries geometry und elevation.
+    -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <h1>Drone Vertical View Planner</h1>
+      <p>16:9 Nadir-Overlay mit Terrain-Hoehen und relativer Hoehe zur Startposition.</p>
+    </header>
+
+    <main class="app-layout">
+      <section class="panel">
+        <div class="field">
+          <label for="placeSearch">Ort suchen</label>
+          <!-- Assumption: User selects a place before any markers are created. -->
+          <input id="placeSearch" type="text" placeholder="Ort oder Adresse" />
+        </div>
+
+        <div class="field">
+          <label for="relHeight">Relative Hoehe zur Startposition (m)</label>
+          <!-- Assumption: Slider step is 1 m for precise adjustments. -->
+          <input id="relHeight" type="range" min="-200" max="150" step="1" value="50" />
+          <output id="relHeightValue">50</output>
+        </div>
+
+        <div class="field">
+          <label for="heading">Heading (Grad)</label>
+          <!-- Assumption: Heading step is 1 degree for fine rotation. -->
+          <input id="heading" type="range" min="0" max="360" step="1" value="0" />
+          <output id="headingValue">0</output>
+        </div>
+
+        <div class="field">
+          <label for="hfov">Horizontal FOV (Grad)</label>
+          <!-- Assumption: HFOV input range 10-160 degrees covers common drone cameras. -->
+          <input id="hfov" type="number" min="10" max="160" step="1" value="78" />
+        </div>
+
+        <div class="field">
+          <button id="locate">Mein Standort</button>
+        </div>
+
+        <div class="info">
+          <div><span>Elevation Home (m u. M.):</span> <strong id="eHome">-</strong></div>
+          <div><span>Elevation Bildzentrum (m u. M.):</span> <strong id="eCenter">-</strong></div>
+          <div><span>Relative Hoehe H_rel (m):</span> <strong id="hRel">-</strong></div>
+          <div><span>Effektive AGL am Motiv (m):</span> <strong id="agl">-</strong></div>
+          <div><span>Footprint (m):</span> <strong id="footprint">-</strong></div>
+          <div class="warning" id="warning">Motiv liegt hoeher als die aktuelle Drohnenhoehe relativ zum Startpunkt.</div>
+        </div>
+      </section>
+
+      <section class="map-wrap">
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <script>
+      // Assumption: Define initMap before the Google Maps callback fires.
+      window.initMap = async () => {
+        const module = await import("./js/main.js");
+        module.initMap();
+      };
+    </script>
+    <script
+      async
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd68VxsLcfONXmRERz_SjvUx8uF6yzrcE&libraries=geometry,elevation,marker,places&loading=async&callback=initMap"
+    ></script>
+  </body>
+</html>
