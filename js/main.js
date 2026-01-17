@@ -9,7 +9,7 @@ const CONFIG = {
   relHeightMin: -200,
   relHeightMax: 120,
   relHeightDefault: 50,
-  // Assumption: Default HFOV is 78 degrees (typical consumer drone camera).
+  // Assumption: Default HFOV is 69 degrees (typical consumer drone camera).
   hfovDefault: 69,
   // Assumption: Elevation debounce uses 400 ms within the 300-500 ms range.
   elevationDebounceMs: 400,
