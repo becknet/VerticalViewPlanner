@@ -29,7 +29,6 @@ export function initMap() {
   ui.relHeightInput.max = CONFIG.relHeightMax;
   ui.relHeightInput.value = CONFIG.relHeightDefault;
   ui.headingInput.value = CONFIG.headingDefault;
-  ui.hfovInput.value = CONFIG.hfovDefault;
 
   ui.setRelHeightValue(CONFIG.relHeightDefault);
   ui.setHeadingValue(CONFIG.headingDefault);
@@ -206,16 +205,6 @@ export function initMap() {
     }
   });
 
-  ui.hfovInput.addEventListener("input", (event) => {
-    const value = Number(event.target.value);
-    if (!Number.isFinite(value)) {
-      return;
-    }
-    state.hfov = value;
-    if (state.markersReady) {
-      updateDerived();
-    }
-  });
 
   ui.locateButton.addEventListener("click", () => {
     if (!navigator.geolocation) {

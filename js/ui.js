@@ -3,7 +3,6 @@ export function initUI() {
   const relHeightValue = document.getElementById("relHeightValue");
   const headingInput = document.getElementById("heading");
   const headingValue = document.getElementById("headingValue");
-  const hfovInput = document.getElementById("hfov");
   const locateButton = document.getElementById("locate");
   const placeSearchInput = document.getElementById("placeSearch");
   const eHome = document.getElementById("eHome");
@@ -33,7 +32,6 @@ export function initUI() {
   return {
     relHeightInput,
     headingInput,
-    hfovInput,
     locateButton,
     placeSearchInput,
     setRelHeightValue(value) {

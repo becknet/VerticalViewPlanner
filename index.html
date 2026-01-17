@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Drone Vertical View Planner</title>
+    <title>Vertical View Planner</title>
     <!--
       README:
       - Ersetze YOUR_API_KEY mit deinem Google Maps JavaScript API Key.
@@ -13,8 +13,8 @@
   </head>
   <body>
     <header class="app-header">
-      <h1>Drone Vertical View Planner</h1>
-      <p>16:9 Nadir-Overlay mit Terrain-Hoehen und relativer Hoehe zur Startposition.</p>
+      <h1>Vertical View Planner</h1>
+      <p>Welchen Bodenausschnitt sieht die Drohne über einem gegeben Kartenausschnit in Abhängigkeit der Höhe des Homepunktes.</p>
     </header>
 
     <main class="app-layout">
@@ -36,26 +36,20 @@
           <output id="relHeightValue">50</output>
         </div>
 
-        <div class="field">
+        <div class="field" style="display:none;">
           <label for="heading">Heading (Grad)</label>
           <!-- Assumption: Heading step is 1 degree for fine rotation. -->
           <input id="heading" type="range" min="0" max="360" step="1" value="0" />
           <output id="headingValue">0</output>
         </div>
 
-        <div class="field">
-          <label for="hfov">Horizontal FOV (Grad)</label>
-          <!-- Assumption: HFOV input range 10-160 degrees covers common drone cameras. -->
-          <input id="hfov" type="number" min="10" max="160" step="1" value="78" />
-        </div>
-
         <div class="info">
-          <div><span>Elevation Home (m u. M.):</span> <strong id="eHome">-</strong></div>
-          <div><span>Elevation Bildzentrum (m u. M.):</span> <strong id="eCenter">-</strong></div>
-          <div><span>Relative Hoehe H_rel (m):</span> <strong id="hRel">-</strong></div>
-          <div><span>Effektive AGL am Motiv (m):</span> <strong id="agl">-</strong></div>
+          <div><span>Höhe Home (m u. M.):</span> <strong id="eHome">-</strong></div>
+          <div><span>Höhe im Bildzentrum (m u. M.):</span> <strong id="eCenter">-</strong></div>
+          <div><span>Maximale Flughöhe über Home:</span> <strong id="hRel">-</strong></div>
+          <div><span>Relative Höhe der Drohen zu Home:</span> <strong id="agl">-</strong></div>
           <div><span>Horizontaldistanz Home - Drohne (m):</span> <strong id="horizDist">-</strong></div>
-          <div><span>Footprint (m):</span> <strong id="footprint">-</strong></div>
+          <div><span>Sichtbare Fläche (m):</span> <strong id="footprint">-</strong></div>
           <div class="warning" id="warning">Motiv liegt hoeher als die aktuelle Drohnenhoehe relativ zum Startpunkt.</div>
         </div>
       </section>
