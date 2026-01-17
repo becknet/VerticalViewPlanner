@@ -10,6 +10,7 @@ export function initUI() {
   const hRel = document.getElementById("hRel");
   const agl = document.getElementById("agl");
   const horizDist = document.getElementById("horizDist");
+  const flightTime = document.getElementById("flightTime");
   const footprint = document.getElementById("footprint");
   const warning = document.getElementById("warning");
 
@@ -50,6 +51,9 @@ export function initUI() {
     },
     setHorizontalDistance(value) {
       setOutput(horizDist, value);
+    },
+    setFlightTime(valueSeconds) {
+      setOutput(flightTime, valueSeconds);
     },
     setFootprint,
     setWarningVisible(visible) {

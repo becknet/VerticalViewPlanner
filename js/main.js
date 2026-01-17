@@ -7,10 +7,10 @@ import { initUI } from "./ui.js";
 const CONFIG = {
   // Assumption: Default relative height range and start value follow PRD example.
   relHeightMin: -200,
-  relHeightMax: 150,
+  relHeightMax: 120,
   relHeightDefault: 50,
   // Assumption: Default HFOV is 78 degrees (typical consumer drone camera).
-  hfovDefault: 78,
+  hfovDefault: 69,
   // Assumption: Elevation debounce uses 400 ms within the 300-500 ms range.
   elevationDebounceMs: 400,
   // Assumption: Cache rounding uses 0.0001 degrees (~11 m) to approximate a 5-10 m grid.
@@ -19,6 +19,10 @@ const CONFIG = {
   headingDefault: 0,
   // Assumption: Replace with your Google Maps Map ID to enable AdvancedMarkerElement.
   mapId: "63a5a9a4011800734ca37433",
+  // Assumption: Drone horizontal speed is 10 m/s for flight time estimation.
+  droneSpeedMetersPerSec: 10,
+  // Assumption: Zoom to 16 when a new location is selected for closer planning.
+  selectionZoom: 16,
 };
 
 export function initMap() {
@@ -28,11 +32,9 @@ export function initMap() {
   ui.relHeightInput.min = CONFIG.relHeightMin;
   ui.relHeightInput.max = CONFIG.relHeightMax;
   ui.relHeightInput.value = CONFIG.relHeightDefault;
-  ui.headingInput.value = CONFIG.headingDefault;
 
   ui.setRelHeightValue(CONFIG.relHeightDefault);
-  ui.setHeadingValue(CONFIG.headingDefault);
-  ui.locateButton.disabled = true;
+  ui.locateButton.disabled = false;
 
   const mapCenter = map.getCenter();
 
@@ -112,6 +114,7 @@ export function initMap() {
       centerPos
     );
     ui.setHorizontalDistance(horizontalDistance);
+    ui.setFlightTime(horizontalDistance / CONFIG.droneSpeedMetersPerSec);
     requestElevations(homePos, centerPos, (result) => {
       state.E_home = result.E_home;
       state.E_center = result.E_center;
@@ -184,8 +187,6 @@ export function initMap() {
     }
     const heading = window.google.maps.geometry.spherical.computeHeading(centerPos, handlePos);
     state.heading = (heading + 360) % 360;
-    ui.setHeadingValue(state.heading);
-    ui.headingInput.value = Math.round(state.heading).toString();
     updateOverlayPosition(centerPos);
   }
 
@@ -197,14 +198,6 @@ export function initMap() {
     }
   });
 
-  ui.headingInput.addEventListener("input", (event) => {
-    state.heading = Number(event.target.value);
-    ui.setHeadingValue(state.heading);
-    if (state.markersReady) {
-      updateOverlayPosition(centerMarker.position);
-    }
-  });
-
 
   ui.locateButton.addEventListener("click", () => {
     if (!navigator.geolocation) {
@@ -212,10 +205,13 @@ export function initMap() {
     }
     // Assumption: "Mein Standort" updates the Home marker and keeps Image Center unchanged.
     navigator.geolocation.getCurrentPosition((position) => {
+      const latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       if (!state.markersReady) {
+        map.panTo(latLng);
+        map.setZoom(CONFIG.selectionZoom);
+        ensureMarkers(latLng);
         return;
       }
-      const latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       homeMarker.position = latLng;
       map.panTo(latLng);
       refreshElevations(latLng, centerMarker.position);
@@ -243,7 +239,7 @@ export function initMap() {
       return;
     }
     map.panTo(place.geometry.location);
-    map.setZoom(14);
+    map.setZoom(CONFIG.selectionZoom);
     if (!state.markersReady) {
       ensureMarkers(place.geometry.location);
       return;

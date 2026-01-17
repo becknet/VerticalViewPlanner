@@ -5,8 +5,8 @@ export function createMap(google, mapElement, mapId) {
   return new google.maps.Map(mapElement, {
     center: defaultCenter,
     zoom: 8,
-    // Assumption: Terrain map type improves height planning context.
-    mapTypeId: "terrain",
+  // Assumption: Satellite view provides better visual context for imagery planning.
+  mapTypeId: "satellite",
     tilt: 0,
     heading: 0,
     // Assumption: AdvancedMarkerElement requires a valid Map ID from Google Cloud Console.
