@@ -20,7 +20,12 @@ export function createMarkers(google, map, options) {
     position: options.centerPosition,
     gmpDraggable: true,
     title: "Bildzentrum",
-    content: createLabel("B"),
+    // Assumption: Center marker is draggable but unlabeled to keep the map clean.
+    content: (() => {
+      const el = createLabel("");
+      el.classList.add("marker-center");
+      return el;
+    })(),
   });
 
   homeMarker.addListener("drag", () => options.onHomeMove(homeMarker.position));

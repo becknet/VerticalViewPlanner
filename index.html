@@ -26,6 +26,10 @@
         </div>
 
         <div class="field">
+          <button id="locate">Mein Standort</button>
+        </div>
+
+        <div class="field">
           <label for="relHeight">Relative Hoehe zur Startposition (m)</label>
           <!-- Assumption: Slider step is 1 m for precise adjustments. -->
           <input id="relHeight" type="range" min="-200" max="150" step="1" value="50" />
@@ -45,15 +49,12 @@
           <input id="hfov" type="number" min="10" max="160" step="1" value="78" />
         </div>
 
-        <div class="field">
-          <button id="locate">Mein Standort</button>
-        </div>
-
         <div class="info">
           <div><span>Elevation Home (m u. M.):</span> <strong id="eHome">-</strong></div>
           <div><span>Elevation Bildzentrum (m u. M.):</span> <strong id="eCenter">-</strong></div>
           <div><span>Relative Hoehe H_rel (m):</span> <strong id="hRel">-</strong></div>
           <div><span>Effektive AGL am Motiv (m):</span> <strong id="agl">-</strong></div>
+          <div><span>Horizontaldistanz Home - Drohne (m):</span> <strong id="horizDist">-</strong></div>
           <div><span>Footprint (m):</span> <strong id="footprint">-</strong></div>
           <div class="warning" id="warning">Motiv liegt hoeher als die aktuelle Drohnenhoehe relativ zum Startpunkt.</div>
         </div>

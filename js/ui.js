@@ -10,6 +10,7 @@ export function initUI() {
   const eCenter = document.getElementById("eCenter");
   const hRel = document.getElementById("hRel");
   const agl = document.getElementById("agl");
+  const horizDist = document.getElementById("horizDist");
   const footprint = document.getElementById("footprint");
   const warning = document.getElementById("warning");
 
@@ -48,6 +49,9 @@ export function initUI() {
     },
     setAgl(value) {
       setOutput(agl, value);
+    },
+    setHorizontalDistance(value) {
+      setOutput(horizDist, value);
     },
     setFootprint,
     setWarningVisible(visible) {

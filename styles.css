@@ -115,6 +115,27 @@ body {
 
 .marker-label.rotate-handle {
   background: #9b4d2b;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+}
+
+.marker-label.marker-center {
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border-radius: 50%;
+  background: #3f5f63;
+  border: 2px solid #f5efe2;
+  transform: translateY(50%);
+}
+
+.rotate-icon {
+  width: 16px;
+  height: 16px;
+  fill: #fff;
 }
 
 

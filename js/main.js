@@ -57,7 +57,11 @@ export function initMap() {
     fillOpacity: 0.35,
   });
 
-  const rotateLabel = createLabel("R");
+  const rotateLabel = createLabel("");
+  rotateLabel.innerHTML =
+    '<svg class="rotate-icon" viewBox="0 0 24 24" aria-hidden="true">' +
+    '<path d="M12 4a7.9 7.9 0 0 1 5.65 2.35l1.35-1.35V9h-4l1.59-1.59A5.9 5.9 0 1 0 17.9 12h2a7.9 7.9 0 1 1-7.9-8z" />' +
+    "</svg>";
   rotateLabel.classList.add("rotate-handle");
   const rotateMarker = new google.maps.marker.AdvancedMarkerElement({
     map: null,
@@ -103,6 +107,12 @@ export function initMap() {
     if (!homePos || !centerPos) {
       return;
     }
+    // Assumption: Horizontal distance equals ground distance between Home and Image Center.
+    const horizontalDistance = window.google.maps.geometry.spherical.computeDistanceBetween(
+      homePos,
+      centerPos
+    );
+    ui.setHorizontalDistance(horizontalDistance);
     requestElevations(homePos, centerPos, (result) => {
       state.E_home = result.E_home;
       state.E_center = result.E_center;
