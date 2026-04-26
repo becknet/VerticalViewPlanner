@@ -56,8 +56,33 @@ body {
   width: 100%;
 }
 
+.field input[type="date"],
+.field input[type="time"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(63, 95, 99, 0.28);
+  border-radius: 8px;
+  color: #1f2a2e;
+  background: rgba(255, 255, 255, 0.82);
+}
+
 .place-search gmp-place-autocomplete {
   width: 100%;
+}
+
+.sun-panel {
+  padding: 12px;
+  border: 1px solid rgba(245, 183, 0, 0.38);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(255, 247, 204, 0.82), rgba(255, 255, 255, 0.58));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sun-panel h2 {
+  margin: 0;
+  font-size: 16px;
 }
 
 .field output {
@@ -72,6 +97,16 @@ body {
   background: #3f5f63;
   color: #fff;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.sun-panel button {
+  padding: 9px 10px;
+  border: 1px solid rgba(155, 77, 43, 0.24);
+  border-radius: 8px;
+  background: #f5b700;
+  color: #342600;
+  font-weight: 700;
   cursor: pointer;
 }
 

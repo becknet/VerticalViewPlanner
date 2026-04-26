@@ -2,6 +2,7 @@ import { createMap } from "./map.js";
 import { createLabel, createMarkers } from "./markers.js";
 import { createElevationFetcher } from "./elevation.js";
 import { computeFootprint, computeCorners } from "./footprint.js";
+import { getSunPosition } from "./sun.js";
 import { initUI } from "./ui.js";
 
 const CONFIG = {
@@ -23,6 +24,8 @@ const CONFIG = {
   droneSpeedMetersPerSec: 10,
   // Assumption: Zoom to 16 when a new location is selected for closer planning.
   selectionZoom: 16,
+  // Assumption: 400 m is long enough to show sun direction without cluttering the map.
+  sunLineLengthMeters: 400,
 };
 
 export function initMap() {
@@ -34,6 +37,7 @@ export function initMap() {
   ui.relHeightInput.value = CONFIG.relHeightDefault;
 
   ui.setRelHeightValue(CONFIG.relHeightDefault);
+  ui.setSunDateTime(new Date());
   ui.locateButton.disabled = false;
 
   const mapCenter = map.getCenter();
@@ -51,11 +55,22 @@ export function initMap() {
   const overlay = new google.maps.Polygon({
     map,
     paths: [],
+    clickable: false,
     strokeColor: "#1d5b66",
     strokeOpacity: 0.9,
     strokeWeight: 2,
     fillColor: "#64b5c3",
     fillOpacity: 0.35,
+  });
+
+  const sunLine = new google.maps.Polyline({
+    map,
+    path: [],
+    clickable: false,
+    strokeColor: "#f5b700",
+    strokeOpacity: 0.95,
+    strokeWeight: 4,
+    zIndex: 1,
   });
 
   const rotateLabel = createLabel("");
@@ -76,6 +91,24 @@ export function initMap() {
   let homeMarker = null;
   let centerMarker = null;
 
+  function updateSunPosition(centerPos) {
+    const date = ui.getSunDateTime();
+    if (!centerPos || !date || Number.isNaN(date.valueOf())) {
+      ui.setSunPosition(null);
+      sunLine.setPath([]);
+      return;
+    }
+    const sun = getSunPosition(date, centerPos);
+    ui.setSunPosition(sun);
+    const lineEnd = window.google.maps.geometry.spherical.computeOffset(
+      centerPos,
+      CONFIG.sunLineLengthMeters,
+      sun.azimuthDeg
+    );
+    sunLine.setPath([centerPos, lineEnd]);
+    sunLine.setOptions({ strokeOpacity: sun.altitudeDeg > 0 ? 0.95 : 0.35 });
+  }
+
   function ensureMarkers(centerPos) {
     if (state.markersReady) {
       return;
@@ -89,6 +122,7 @@ export function initMap() {
       },
       onCenterMove: (position) => {
         updateOverlayPosition(position);
+        updateSunPosition(position);
         refreshElevations(homeMarker.position, position);
       },
     });
@@ -96,6 +130,7 @@ export function initMap() {
     centerMarker = markers.centerMarker;
     state.markersReady = true;
     ui.locateButton.disabled = false;
+    updateSunPosition(centerMarker.position);
     refreshElevations(homeMarker.position, centerMarker.position);
   }
 
@@ -198,6 +233,24 @@ export function initMap() {
     }
   });
 
+  ui.sunDateInput.addEventListener("change", () => {
+    if (state.markersReady) {
+      updateSunPosition(centerMarker.position);
+    }
+  });
+
+  ui.sunTimeInput.addEventListener("change", () => {
+    if (state.markersReady) {
+      updateSunPosition(centerMarker.position);
+    }
+  });
+
+  ui.sunNowButton.addEventListener("click", () => {
+    ui.setSunDateTime(new Date());
+    if (state.markersReady) {
+      updateSunPosition(centerMarker.position);
+    }
+  });
 
   ui.locateButton.addEventListener("click", () => {
     if (!navigator.geolocation) {
@@ -250,6 +303,7 @@ export function initMap() {
     // Assumption: New search recenters both markers to the selected place.
     homeMarker.position = place.location;
     centerMarker.position = place.location;
+    updateSunPosition(centerMarker.position);
     refreshElevations(homeMarker.position, centerMarker.position);
   });
 }

@@ -15,8 +15,10 @@ Die App ist client-side. Oeffne `index.html` im Browser (oder ueber einen lokale
 - Ort suchen und auswaehlen (oder "Mein Standort").
 - Marker werden am Ort gesetzt.
 - Relative Hoehe anpassen.
+- Datum und Uhrzeit setzen, um Sonnenhoehe und Sonnenazimut am Bildzentrum zu sehen.
 - Rotation direkt im Bild ueber den Rotationsgriff.
 - Overlay zeigt den berechneten 16:9-Ausschnitt.
+- Gelbe Linie zeigt die Sonnenrichtung am Bildzentrum.
 - Flugdauer basiert auf 10 m/s und der Horizontaldistanz.
 
 ## Wichtige Hinweise
@@ -24,6 +26,7 @@ Die App ist client-side. Oeffne `index.html` im Browser (oder ueber einen lokale
 - `AdvancedMarkerElement` erfordert eine Map ID.
 - `PlaceAutocompleteElement` ersetzt das Legacy-Widget `google.maps.places.Autocomplete`.
 - Elevation-Abfragen werden gecached und debounced.
+- Sonnenstand wird lokal im Browser berechnet und nutzt die lokale Browser-Zeitzone.
 - Standardansicht ist Satellit.
 
 ## Projektstruktur
@@ -34,6 +37,7 @@ Die App ist client-side. Oeffne `index.html` im Browser (oder ueber einen lokale
 - `js/markers.js` Marker-Erstellung
 - `js/elevation.js` Elevation-Service
 - `js/footprint.js` Footprint-Logik
+- `js/sun.js` Sonnenstandsberechnung
 - `js/ui.js` UI-Glue
 
 ## Annahmen

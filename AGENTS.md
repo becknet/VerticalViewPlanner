@@ -23,6 +23,7 @@ The app is intentionally simple: static HTML, CSS, and vanilla JavaScript ES mod
 - `js/markers.js`: Home marker, image-center marker, marker label helpers
 - `js/elevation.js`: Debounced and cached elevation lookup logic
 - `js/footprint.js`: Footprint dimensions and rotated polygon corner calculations
+- `js/sun.js`: Local sun altitude and azimuth calculation for a date/time and coordinate
 - `js/ui.js`: DOM lookup and display update helpers
 - `README.md`: Setup, usage, assumptions, and structure summary
 - `PRD_Drone_Vertical_View_Planner.md`: Product requirements and formulas
@@ -46,6 +47,8 @@ groundHeight = groundWidth * 9 / 16
 
 The polygon corners are computed with `google.maps.geometry.spherical.computeOffset`, using the center point, width, height, and heading.
 
+Sun position is calculated locally in `js/sun.js` from the browser-local date/time and the image-center coordinate. The app displays sun altitude and north-based clockwise azimuth. A yellow map line points from the image center toward the sun azimuth; the line is faded when the sun is below the horizon.
+
 ## Important Implementation Details
 
 - Keep the app client-side only unless the user explicitly asks for a backend.
@@ -59,6 +62,7 @@ The polygon corners are computed with `google.maps.geometry.spherical.computeOff
 - Home marker and image-center marker have different meanings. Home affects `E_home`; center affects `E_center` and footprint placement.
 - Horizontal distance and flight time are informational only. Current flight-time assumption is 10 m/s.
 - Rotation is currently controlled by dragging the rotate handle marker. The hidden heading slider exists in the DOM but is not the active UX control.
+- Sun date/time inputs use the browser's local timezone. Do not add paid timezone APIs unless the user explicitly asks for worldwide timezone correctness.
 
 ## Coding Guidelines
 
@@ -98,6 +102,7 @@ http://localhost:8000/
 - Moving the relative-height slider updates AGL and footprint dimensions.
 - If AGL is `<= 0`, the overlay disappears and the warning is visible.
 - Dragging the rotation handle rotates the polygon around the image center.
+- Changing sun date/time updates sun altitude, azimuth, status, and the yellow direction line.
 - Layout works on desktop and below `960px` viewport width.
 
 ## HTML Validation

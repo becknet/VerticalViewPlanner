@@ -64,6 +64,33 @@
                     <output id="headingValue">0</output>
                 </div>
 
+                <div class="sun-panel">
+                    <h2>Sonnenstand</h2>
+                    <div class="field">
+                        <label for="sunDate">Datum</label>
+                        <input id="sunDate" type="date" />
+                    </div>
+                    <div class="field">
+                        <label for="sunTime">Uhrzeit</label>
+                        <input id="sunTime" type="time" step="60" />
+                    </div>
+                    <button id="sunNow" type="button">Auf aktuelle Zeit zurücksetzen</button>
+                    <div class="info">
+                        <div>
+                            <span>Sonnenhöhe:</span>
+                            <strong id="sunAltitude">-</strong>
+                        </div>
+                        <div>
+                            <span>Sonnenazimut:</span>
+                            <strong id="sunAzimuth">-</strong>
+                        </div>
+                        <div>
+                            <span>Status:</span>
+                            <strong id="sunStatus">-</strong>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="info">
                     <div>
                         <span>Höhe Home (m u. M.):</span>
@@ -114,7 +141,7 @@
         </script>
         <script
             async
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDd68VxsLcfONXmRERz_SjvUx8uF6yzrcE&libraries=geometry,elevation,marker,places&loading=async&callback=initMap"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbIMs1GUZ8aQTsIZWTH_9G2cK8HCtI4o4&libraries=geometry,elevation,marker,places&loading=async&callback=initMap"
         ></script>
     </body>
 </html>
