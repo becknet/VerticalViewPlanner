@@ -56,6 +56,10 @@ body {
   width: 100%;
 }
 
+.place-search gmp-place-autocomplete {
+  width: 100%;
+}
+
 .field output {
   font-size: 14px;
   color: #314046;

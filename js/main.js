@@ -229,24 +229,27 @@ export function initMap() {
   rotateMarker.addListener("drag", updateHeadingFromHandle);
   rotateMarker.addListener("dragend", updateHeadingFromHandle);
 
-  const autocomplete = new google.maps.places.Autocomplete(ui.placeSearchInput, {
-    fields: ["geometry", "name"],
-  });
-  autocomplete.bindTo("bounds", map);
-  autocomplete.addListener("place_changed", () => {
-    const place = autocomplete.getPlace();
-    if (!place.geometry || !place.geometry.location) {
+  const placeAutocomplete = new google.maps.places.PlaceAutocompleteElement({});
+  placeAutocomplete.id = "placeAutocomplete";
+  placeAutocomplete.setAttribute("aria-label", "Ort oder Adresse");
+  placeAutocomplete.placeholder = "Ort oder Adresse";
+  ui.placeSearchContainer.appendChild(placeAutocomplete);
+
+  placeAutocomplete.addEventListener("gmp-select", async (event) => {
+    const place = event.placePrediction.toPlace();
+    await place.fetchFields({ fields: ["displayName", "location"] });
+    if (!place.location) {
       return;
     }
-    map.panTo(place.geometry.location);
+    map.panTo(place.location);
     map.setZoom(CONFIG.selectionZoom);
     if (!state.markersReady) {
-      ensureMarkers(place.geometry.location);
+      ensureMarkers(place.location);
       return;
     }
     // Assumption: New search recenters both markers to the selected place.
-    homeMarker.position = place.geometry.location;
-    centerMarker.position = place.geometry.location;
+    homeMarker.position = place.location;
+    centerMarker.position = place.location;
     refreshElevations(homeMarker.position, centerMarker.position);
   });
 }

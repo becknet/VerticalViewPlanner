@@ -20,8 +20,9 @@ Die App ist client-side. Oeffne `index.html` im Browser (oder ueber einen lokale
 - Flugdauer basiert auf 10 m/s und der Horizontaldistanz.
 
 ## Wichtige Hinweise
-- Die Maps JavaScript API und Places API muessen im Google Cloud Console Projekt aktiviert sein.
+- Die Maps JavaScript API, Places API (New) und Elevation API muessen im Google Cloud Console Projekt aktiviert sein.
 - `AdvancedMarkerElement` erfordert eine Map ID.
+- `PlaceAutocompleteElement` ersetzt das Legacy-Widget `google.maps.places.Autocomplete`.
 - Elevation-Abfragen werden gecached und debounced.
 - Standardansicht ist Satellit.
 

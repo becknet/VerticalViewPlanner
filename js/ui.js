@@ -4,7 +4,7 @@ export function initUI() {
   const headingInput = document.getElementById("heading");
   const headingValue = document.getElementById("headingValue");
   const locateButton = document.getElementById("locate");
-  const placeSearchInput = document.getElementById("placeSearch");
+  const placeSearchContainer = document.getElementById("placeSearch");
   const eHome = document.getElementById("eHome");
   const eCenter = document.getElementById("eCenter");
   const hRel = document.getElementById("hRel");
@@ -34,7 +34,7 @@ export function initUI() {
     relHeightInput,
     headingInput,
     locateButton,
-    placeSearchInput,
+    placeSearchContainer,
     setRelHeightValue(value) {
       relHeightValue.textContent = value.toFixed(0);
       hRel.textContent = value.toFixed(0);
